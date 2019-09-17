@@ -1,0 +1,64 @@
+spring:
+  application:
+    name: cloudtemplate-server
+server:
+  port: 8002
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8001/eureka/
+logging:
+  config: classpath:logback.xml
+
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 7000
+        readTimeout: 7000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 8000
+ribbon:
+  ReadTimeout: 7000
+  ConnectTimeout: 7000
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: false
+
+custom:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db1?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+
+    initialsize: 1
+    minIdle: 3
+    maxActive: 20
+
+    maxWait: 60001
+
+    timeBetweenEvictionRunsMillis: 60000
+
+    minEvictableIdleTimeMillis: 30000
+    testWhileIdle: false
+    testOnBorrow: false
+    testOnReturn: false
+
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+
+    filters: stat,wall,slf4j
+
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+    useGlobalDataSourceStat: true
+    validationQuery: 'select 1'
